@@ -1,0 +1,1105 @@
+3rd party payroll-> 
+
+2 projects:
+------------
+
+
+1+year TechMahindra
+
+Nodejs Microservices Project: Name & Description
+-----------------------------
+Aws,Jenkins,Docker,k8s
+
+2 years- TCS
+
+Java Project: Name & Description
+-------------
+Aws,Ansible,Jenkins,Maven,Tomcat
+================================================================
+how to list of all the processes which are running in a linux machine.
+
+$ ps -ef
+
+
+How to run any process in the background
+
+we need to put & at the last of the command
+
+$ node server.js &
+
+
+how to filter some content out of a file (or) out of some output
+
+ grep command
+
+$ ps -ef | grep node
+
+$ cat filename | grep sometext
+
+How to listout all the processes which are utlizing high cpu
+
+How to find the cpu utilization in Linux
+
+$ top
+
+
+How to find webserver logs in linux
+
+$cat /var/log/httpd/error.log | grep 10-12-2011
+
+how to see the latest last 10 lines
+
+$ tail /var/log/httpd/error.log
+
+How to see the first 10 lines of a file
+
+$ head /var/log/httpd/access.log
+
+
+How to see the last or first n number of lines of a file
+
+$ tail -n filename
+
+eg: 
+
+$ tail -5 file1.txt
+
+$ head -20 file1.txt
+
+-> How to see the continuos logs
+
+$ tail -f /var/log/httpd/access.log
+
+
+
+To get the cpu details
+
+$ lscpu
+
+To list out the memory utilization details
+
+$ free
+
+To get the details in mbs
+$ free -m
+
+To get the details in gbs
+
+$ free -h
+
+How to kill a process in linux?
+
+We can kill a process with process id or with process name
+
+# kill -9 pid
+
+eg:
+# kill -9 2134
+
+To kill with the process name
+
+# pkill yum
+
+How to enable/disable any process on reboot
+
+# chkconfig httpd on
+ (or)
+
+# systemctl enable httpd
+
+If you start a Linux machine what is the first process that runs first.
+
+# init is the first process(upto redhat6)
+
+From redhat7 the first process is 'systemd'
+
+Which are having pid=1
+
+How to get the kernel version details of a linux machine
+# uname -r
+
+How to verify the ports availability
+
+# netstat -lntp
+
+To  create a tar ball
+
+$ tar -cvzf abc.tar.gz directoryname 
+
+To extract
+
+$ tar -xvzf abc.tar.gz
+================================================================
+                             Aws 
+                            ======
+-> How to launch an ec2 instance.. tell me the steps??
+
+Older version: 
+---------------
+-> Choose AMI
+-> Choose instance type
+-> configure instance
+-> Add Storage
+-> Add tags
+-> Configure Security group
+-> Review
+================================================================
+Newer Version:
+--------------
+-> With the newer version some default values set for each and every option. If we want other values we need to select from the list of values provided by each and every step.
+
+The sequence of steps will be like this
+
+-> Name and tags
+
+-> Choosing an AMI
+
+-> Instance type
+
+-> key-pair
+
+-> Network-settings
+
+-> Configure storage
+
+-> Summary
+
+-> Launch instance
+================================================================
+
+What are the instance types that you are using in your project?
+
+-> There will be different types of instances available... like
+
+ memory optimized instances
+ compute optimized instances
+ storage optimized instances
+ Gpu enabled instances ...
+
+Based on the requirement we need to select the instance type.
+In our project we do have couple of compute optimized which starts with c series like c5.large,c5.xlarge and memory optimized  instances which starts with r series like r5.large and r5.4xlarge.
+
+-> What are ec2 purchasing options we have ?
+   -> on-demand
+   -> spot instances
+   -> reserved instances
+   -> dedicated-hosts
+
+-> If we lost the key-pair of any ec2 instance.. How can we login to the ec2 instance??
+
+We can create a snapshot of the volume which is attached to the ec2 instance, we need to create a new ec2-instance and we can add the volume out of the snapshot which we are created.we can login to the new ec2 instance from the .ssh folder of the user which is available under the volume which is attached to recover the key.
+
+-> How many security groups can be attached to an ec2 instance?
+
+Five security groups
+
+-> What is the differnce between security group and NACL ??
+
+(Network access control list) 
+
+Security group will be attached to an ec2 instance
+
+but network level(subnet level) security rules will be defined with NACL.
+
+Security group will not have an option of denying the traffic. It will contain only allow option.
+----------------------------------------------------------------
+
+S3:
+--
+
+-> If I want to access an object which is stored in the s3 bucket from the internet how can I access??
+
+We should provide public read access for both bucket and object.
+
+-> What is the maximum size of an s3 bucket ??
+   
+    5TB
+-> What is the default storage class of s3?
+
+Standard Storage class
+
+
+-> What is the lifecycle rule in s3 bucket?
+
+If we want to transit an object from one storage class to another storage class based on the time interval we will be defining lifecycle rul in s3 bucket
+
+For example if we want to transit the object from standard storage class to Standard IA storage class after some time interval , From standard IA to amazon glacier after some time interval we can create object lifecycle rule in s3 bucket.The object will be transited based on the time interval we have mentioned in the lifecyle rule.
+
+-> What is VPC ?
+
+If we want to create our own private space in aws cloud we can use vpc service.
+
+-> How many vpcs and subnets we can create with in a region??
+
+We can create 5 vpcs and 200 subnets with in a region.
+
+-> What is the difference between public and private subnets?
+   
+If we want to allow access to our ec2 instances from the interent we need to launch our ec2 instances in public subnets.
+
+If we dont want to allow access to our ec2 instances from the internet we need to launch our ec2 instances in private subnets.
+
+-> How to differntiate public subnets and private subnets?
+
+If the subnet route table is attached with the internet gateway we can call the subnet as public subnet.
+
+If the subnet route tabe is not attached with any internet gateway we can call the subnet as private subnet.
+
+-> What is differnece between internet gateway and NAT gateway?
+
+Internet gateways are attached to sublic net route tables to access the internet and nat gateways are attached to private subnet route tables to access the internet. But the key difference is internet gateway allow outside traffic to reach to the public subnet instances, NAT gateway will not allow any internet access from outside.. which means we can not reach to the private subnet instances from outside. But if the subnet instances wants to access the internet NATgateway will take the internal request and process it to outside to the internet.
+
+-> If two different vpc instances wants to communicate with private ip address,How can we achieve that?
+
+There is a concept called vpc-peering. By creating vpc peering connection we can create private ip based communication between to vpcs. One vpc would be the requester another vpc would be the accepter. But the rule is these two vpcs should not have the same ipaddress cidr.
+
+-> How many route tables can be attached to a subnet??
+
+Only one route table can be attached to a subnet. But multiple subnets can be associated with a single route table.
+
+-> If any questions related to RDS service
+
+
+No, we are not authorized to do anything anything with databases. These databases are maintained by a seperate DBA team.
+
+
+-> What is an edge location??
+
+Edge locations are used for Cache purpose to provide the contet faster.  It is the part of Content Delivery Network.
+
+-> What is the difference between roles and polices in IAM?
+
+Policies are set of permissions to be attached for an user/group.
+
+
+Roles are the set of permissions attached to the services. Roles internally attached to policies.
+
+Route53(DNS service)
+--------------------
+
+www.facebook.com -> ipaddress
+                 -> DNS name
+
+A record  -> Url to ipaddress (ipv4)
+AAAA record -> url to ipv6 address
+CNAME record -> url to another url
+Alias record -> url to aws resource (ELB DNS name)
+================================================================
+                         Git
+                         ---
+-> What is the differnece between git clone,git pull and git fetch?
+
+git clone command is used to create local repository.
+
+git fetch command will get the source code from remote repository to the local repository. to add the code from local repo to the working directory we need use git merge command.
+
+git pull command will get the source code directly from the remote repository to the local working directory. So it is the combination of git fetch+ git merge.
+
+-> How to create a branch in git ?
+
+$ git branch <branch-name>
+
+-> how to shift from one branch to another branch?
+
+$ git checkout <branch-name>
+
+-> How to merge two branches?
+
+We need to checkout to the branch to which we want to merge and we need to perform $ git merge <branch-name>
+
+-> How do you resolve the merge conflicts ??
+
+When any two developers worked on the same file of the two differnet branches we used to get merge conflicts. We will be raising a ticket to the dev team to reslove the merge conflicts. Because we are not responsible to write/modify the code 
+
+-> How to delete a branch ?
+
+$ git branch -d <branch-name>
+
+-> How to clone a specific branch ?
+
+$ git clone -b <branch-name> <remote-repo-url>
+
+-> What is git cherrypick ??
+
+If you want to get any one specific commit to apply on another branch we will be using git cherrypick.
+
+----------------------------------------------------------------
+                            Jenkins
+                            --------
+-> How to integrate git with jenkins?
+
+Under the source code option of the job we need to select git,(because git plugin is installed while installing the jenkins)
+we need to pass the repository url and the username and password to connect the url(because we are working on private repository)
+
+-> What is CI/CD and how did you implement CI/CD in your project?
+
+If any developer commits any new code.. the code needs to get build and deployed to the server environments automatically..once the code is deployed on testing environemnts like QA and UAT all the test cases needs to get executed and if all the test cases are passed the code needs to be deployed into the further environment like staging/pre-prod.
+
+If we perform the automation of these steps we can call it as CI/CD.. where the changes in the code will be continuosly integragted with the application and deployed into the servers.
+
+
+We have implemented CI/CD like...
+
+In our previous project we have been working on java projects.. as part of the java project
+
+We have used git as our source code repository
+maven as a build tool
+sonarqube as a code quality tool
+Nexus as an artifact repository
+Tomcat as our servers
+
+Jenkins as a CI/CD tool.
+
+We have built a CI/CD job, in that job configuration we have configure like this,If any developer commits any new code to the git repository.. my jenkins job will get triggered(pollSCM)
+with in the job it will get the latest code from the git, It performs code quality test with Sonarqube(where we have installed sonar scanner plugin in jenkins) and it invoke maven build and execute the maven goals which are specified by the developers and generate the artifact(.jar/.war) and stores in the artifact repository (Nexus) as well as the artifact will be deployed into the group of testing servers.. for this deployment we have written ansible playbook.! Once the application is deployed into testing servers the test case will get executed for this automation testing we are using selenium in our project. once all the test cases are passed the application will be moved to the staging area. Once the sprint the sprint is ready production deployment team will come and deploy the application into production.
+---------------------------------------------------------------
+In our current project we are working with nodejs applications because the project is based on microservices.
+
+For this nodejs application we are using git as our source code repository.
+
+We are containerizing the application by writing docker files.
+
+We are responisble to build the custom images by writing the dockerfiles.
+
+Once the image is ready we are uploading the image to dockerhub.
+
+We are deloying these containers into k8s environment for the high availability. Where we are responsible to write k8s deployment scripts and services scripts for the deployment of these docker containers.
+
+For all these steps we have written a pipeline script in jenkins.
+
+--------------------------------------------------------------
+-> What are the different job types you are building on jenkins?
+
+
+We have couple of free style jobs and couple of pipeline jobs.. according to the requirement we will be configuring the jobs
+
+-> How to download a plugin in jenkins??
+
+Manage jenkins -> Manage plugins -> Available -> search for the plugin-> Click on install without restart.
+
+-> What are the plugins you are using in your project??
+
+There are so many plugins that we are using..
+like git,docker,docker-pipeline,docker build and publish,nodejs plugin, backup plugin, sonar scanner plugin, nexus plugin..etc!!!
+
+-> How to configure master/slave architecture in jenkins??
+
+-> How to run a job on a particular node??
+
+With in the job configuration we need to select 'restrict where the project can built' and we need to give the label information of the agent.
+
+-> What is the differnce between scripted pipeline and declarative pipeline? Which pipeline you are using?
+
+Scripted pipeline starts with node {} inside to the node block we need to write groovy script, declarative pipeline starts with pipeline{} inside the pipeline we will be having stages and steps to perform the actions. 
+We are using declarative pipeline in our project. 
+
+-> Share your screen open notepad and write some sample pipeline script ??
+
+================================================================
+                       Docker
+                       ------
+-> How to create a container?
+
+We can create a container in two modes
+-> Interactive mode
+-> daemonized mode
+if we want to create a container in interactive mode we need to use
+$ docker container run -i -t
+If we want to create a container in detached mode or daemonized mode or in background mode
+$ docker container run -d
+
+-> How to create a container in detached mode?
+Refer to the above answer
+
+-> How to copy a file from docker container to the host?
+
+$ docker cp <container-id>:/path/to/file ~/path/to/destination
+
+-> How to connect to the webserver which is running inside the docker container??
+
+By doing port forwarding/port binding/port mapping with the hostmachine's port.
+
+-> How to get the ipaddress of a container?
+
+$ docker container inspect <container-id>
+
+-> What is the default network of a docker container?
+
+There are 3 types of networks avaialble in the docker host
+
+-> Bridge N/W
+-> Host N/W
+-> None N/W 
+
+Out of these bridge network is the default network for a docker container.
+
+-> How to list out all the running containers?
+
+$ docker container ls
+
+-> How to delete all the containers with a single command?
+
+$ docker container rm $(docker container ls -aq)
+
+-> How to execute a command in a background running container?
+
+$ docker exec -i -t <cont-id> /bin/bash
+
+-> What is difference between ENTRYPOINT & CMD ?
+
+ENTRYPOINT and CMD both commands will get executed first when we create a container out of an image.
+
+We should use either ENTRYPOINT or CMD in the dockerfile.
+
+Entrypoint is not overridable.
+CMD will be overridable.
+
+If we want to use both we should pass command inside the ENTRYPOINT and arguments inside the CMD.
+
+-> What is the differnce between RUN and CMD ?
+
+RUN command will get executed while creating the image. CMD will get executed after creating the container out of that image.
+
+-> Share your screen and write some simple dockerfile
+
+-> What is the command to build docker image out of the dockerfile?
+
+$ docker build -t imagename:tag
+
+-> How to get the log files of a container ?
+
+$ docker logs -f <cont-id>
+
+-> How to list out the running processes of a coantainer ?
+
+$ docker top <cont-id>
+
+-> What is your role in docker technology?
+
+My role is to containerize the applications and building the custom images by writing the dockerfiles.
+================================================================
+                           Kubernetes
+                           ----------
+Role in k8s as a devops Engineer:
+---------------------------------
+
+Deploy the applications into k8s cluster by writing the deployment scripts and expose the applications by creating services.
+
+-> what are the different types of services in k8s?
+
+Cluster-ip service -> Which is used for internal communications
+NodePort service -> To connect to the applications from ouside using any of the port of nodes.
+Load balancer service -> To access the k8s applications from loadblancers like ELB for aws , ALB for AZure.
+
+-> What is the purpose of a label?
+
+If we provide a label to any resource we can select the resource by using the labels.
+
+Example:
+--------  If we assign a label to a pod the service can select the pod using its label.
+
+-> What is the purpose of a namespace ??
+
+If we want to logically segregate the physical cluste into multiple logical clusters.
+
+-> How to list out all the pods?
+
+$ kubectl get pods 
+
+-> How to list out the pods of a specific namespace?
+
+$ kubectl get pods -n <namespace>
+
+-> How to list out all the namespaces?
+
+$ kubectl get ns
+
+-> How to get the pod ip address?
+
+$ kubectl get pods -o wide
+
+-> How to get all the deploment set details
+
+$ kubectl get deploy
+
+-> How to get all the replicaset details?
+
+$ kubectl get rs
+
+How to list out all the details and events of a pod??
+
+$ kubectl describe po <pod-name>
+
+-> Explain k8s Architecture/ What is Controlplane and dataplane in k8s architecture?
+
+Watch class room video and prepare notes.
+
+-> Share your screen and write a deployment script and a service script?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+$ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
